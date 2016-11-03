@@ -1,0 +1,137 @@
+
+nohup /apps/java/jdk1.7.0_85-64/bin/java -Xms1024M -Xmx1024M -jar trapECP.jar QM1>/dev/null 2>&1 &
+tar -xvf TRAPEventCollector-purge.tar
+
+export LOGDIR=/apps/db2/uat/logs/purge
+export DATADIR=/apps/db2/uat/data/purge
+
+nohup /apps/java/jdk1.7.0_85-64/bin/java -Xms1024M -Xmx1024M -jar trapECP.jar QM1>/dev/null 2>&1 &
+nohup /apps/java/jdk1.7.0_85-64/bin/java -Xms1024M -Xmx1024M -jar trapECP.jar QM2>/dev/null 2>&1 &
+
+ps -ef | grep trapECP.jar
+kill -9 pid
+
+ps -ef | grep trapECP.jar | grep java | awk '{print $2}' | xargs kill -9
+----------------------------------------------------------------------------------------------------
+/apps/java/jdk1.7.0_85-64/bin/java -jar trapECP.jar QM1
+java -jar falconbatch.jar debit QM1 2
+java -jar falconbatch.jar debit QM1 3
+java -jar falconbatch.jar debit QM1 4
+
+
+
+java -jar falconBatch.jar ecc QM1
+java -jar falconBatch.jar debitnrt QM1
+java -jar falconBatch.jar debitrt QM1
+
+config
+ --debit
+     --qm1
+     --qm2
+     --qm3
+     --qm4
+  --ecc
+     --qm1
+     --qm2
+     --qm3
+     --qm4
+
+
+   QM{n}
+----------------------- Linux ----------
+tar -xvf <tar file name>
+tar -xvf FalconBatch.tar
+
+export LOGDIR=/apps/db2/uat/logs/purge
+export DATADIR=/apps/db2/uat/data/purge
+export SSLPWD=/tmp/Contingency/SSLKey/.keystorepwd
+export SSLCERT=/tmp/Contingency/SSLKey/falconmqnprod.jks
+
+nohup java -jar trapECP.jar QM1>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M
+
+nohup java -Xms1024M -Xmx1024M -jar trapECP.jar ecc QM1>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M -jar falconBatch.jar ecc QM2>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M -jar falconBatch.jar debitnrt QM1>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M -jar falconBatch.jar debitnrt QM2>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M -jar falconBatch.jar debitrt QM1>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M -jar falconBatch.jar debitrt QM2>/dev/null 2>&1 &
+
+ps -ef | grep trapECP.jar
+ps -ef | grep TRAP_HTTP_Simulator.jar
+ps -ef | grep TRAP_MQ_Simulator.jar
+kill -9 pid
+ll
+ls -ltr
+nohup java -Xms1024M -Xmx1024M -jar TRAP_MQ_Simulator.jar ecc qm1 1 hour>/dev/null 2>&1 &
+nohup java -Xms1024M -Xmx1024M -jar TRAP_HTTP_Simulator.jar debit 1 hour>/dev/null 2>&1 &
+
+chmod u+x startFalconBatch.ksh
+./startFalconBatch.ksh
+./stopFalconBatch.ksh
+
+rm -r mq*
+
+cat perflog-Qm2-28880.log | grep 'log message' | grep '2015-11-13 10:42:50' | wc -l
+
+ps -ef | grep trapECP.jar | grep java | awk '{print $2}' | xargs kill -9
+
+ps -ef | grep TRAP_HTTP_Simulator.jar | grep java | awk '{print $2}' | xargs kill -9
+------------------------------------
+/apps/falcondev/user/<yourid>
+su - falcon
+
+
+mv <filename> <filename>.2015-11-23
+
+mkdir /apps/falcondev/users/u440878/dev
+chmod o-w /apps/falcondev/users/u440878/ETVT/FalconBatch.tar
+
+mv /apps/falcondev/users/u440878/ETVT/FalconBatch.tar /apps/falcondev/users/falcon/etvt/java/contingency
+---------------------------------
+/apps/falcondev/users/falcon/<env>/bin 
+
+ cp /apps/falcondev/users/u440878/ETVT/FalconBatch.tar .
+ 
+-------------------
+Dbtran-QM{n}-pid.dat
+
+appLogger = LogManager.getLogger("appLogger"+param1+param2);
+
+
+4. upper and lower limit for memory
+5. QM Up and Down status
+
+
+F1.TROX for TRAP EC
+F1.FAL for TRAP DEBIT
+
+java -Xms1024M -Xmx2048M -jar trapECP.jar QM1
+
+1024M is the min memory heap size 
+not it has to be set while running the process
+
+
+min and max heap size is defined for the process to utilize only that much memory
+if the process is not capable of running withing that limit then we need to tune the program
+for more information you can read on the memory heap and how to set them 
+
+ECC
+----
+2202
+69 
+
+Debit
+-----
+1156
+161
+
+
+
+nohup java -jar falconBatch.jar ecc QM1>/dev/null 2>&1 &
+[1] 32392
+
+
+------------------------------
+
+F1.TDBP.DEBIT.PIN.NRT.REQ 
